@@ -151,4 +151,18 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="checkUserName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT COUNT (id) FROM mmall_user WHERE username = #{userName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT COUNT (id) FROM mmall_user WHERE email = #{email,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    select <include refid="Base_Column_List"/> FROM mmall_user WHERE username = #{username} and password = #{password}
+  </select>
+
+
 </mapper>
