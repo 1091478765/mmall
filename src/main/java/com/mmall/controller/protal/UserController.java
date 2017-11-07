@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 /**
+ * 用户登录相关控制器
  * Created by 刘璐 on 2017/11/2.
  */
 @Controller
@@ -23,6 +24,13 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "login.do")
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session){
@@ -33,6 +41,11 @@ public class UserController {
         return response;
     }
 
+    /**
+     * 退出
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "logout.do")
     @ResponseBody
     public ServerResponse<String> logout(HttpSession session){
@@ -40,9 +53,59 @@ public class UserController {
         return ServerResponse.createBySuccessMessage("登出成功");
     }
 
+    /**
+     * 用户退出
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "register.do")
     @ResponseBody
     public ServerResponse<User> register(User user){
         return userService.register(user);
     }
+
+    /**
+     * 用户输入验证
+     * @param str
+     * @param type
+     * @return
+     */
+    @RequestMapping(value = "checkVlidate.do")
+    @ResponseBody
+    public ServerResponse<String> checkVlidate(String str,String type){
+        return userService.checkVlidate(str ,type);
+    }
+
+    /**
+     * 获取登录用户信息
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "getUserInfo.do")
+    @ResponseBody
+    public ServerResponse<User> getUserInfo(HttpSession session){
+        User user = (User)session.getAttribute(Constant.CURRENT_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return ServerResponse.createBySuccessData(user);
+    }
+
+    /**
+     * 根据用户名查询偶用户问题
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "forgetGetQuestion.do")
+    @ResponseBody
+    public ServerResponse<String> forgetGetQuestion(String username) {
+        return userService.forGetQuestion(username);
+    }
+
+    @RequestMapping(value = "forgetCheckQuestion.do")
+    @ResponseBody
+    public ServerResponse<String> forgetCheckQuestion(String username, String answer,String question) {
+        return userService.forgetCheckQuestion(username,answer,question);
+    }
+
 }

@@ -37,4 +37,20 @@ public interface UserMapper {
      * @return
      */
     int checkEmail(String email);
+
+    /**
+     * 根据用户名查询用户问题
+     * @param username
+     * @return
+     */
+    String selectQuestionByUserName(@Param("username") String username);
+
+    /**
+     * 根据用户名，问题，答案查询
+     * @param username
+     * @param answer
+     * @param question
+     * @return
+     */
+    int forgetCheckQuestion(@Param("username") String username, @Param("answer")String answer, @Param("question")String question);
 }

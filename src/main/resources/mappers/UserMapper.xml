@@ -164,5 +164,13 @@
     select <include refid="Base_Column_List"/> FROM mmall_user WHERE username = #{username} and password = #{password}
   </select>
 
+  <select id="selectQuestionByUserName" parameterType="java.lang.String" resultType="java.lang.String">
+    select username from mmall_user WHERE username = #{username}
+  </select>
+
+  <select id="forgetCheckQuestion" parameterType="map" resultType="java.lang.Integer">
+    select count(id) FROM mmall_user WHERE username = #{username} and question = #{question} and answer = #{answer}
+  </select>
+
 
 </mapper>
