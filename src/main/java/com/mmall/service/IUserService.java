@@ -3,6 +3,8 @@ package com.mmall.service;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by 刘璐 on 2017/11/2.
  */
@@ -40,9 +42,42 @@ public interface IUserService {
     /**
      * 验证用户名
      *
-     * @param s
+     * @param
      * @param username
      * @return
      */
     ServerResponse<String> forgetCheckQuestion(String username, String answer, String question);
+
+    /**
+     * 忘记密码重置密码
+     * @param username
+     * @param newPassword
+     * @param token
+     * @return
+     */
+    ServerResponse<String> forgetResetPassword(String username, String newPassword, String token);
+
+    /**
+     * 重置密码
+     * @param session
+     * @param newPassword
+     * @param oldPassword
+     * @return
+     */
+    ServerResponse<String> resetPassword(HttpSession session, String newPassword, String oldPassword);
+
+    /**
+     * 更新用户信息
+     * @param session
+     * @param user
+     * @return
+     */
+    ServerResponse<User> updateInformation(HttpSession session, User user);
+
+    /**
+     * 获取用户信息
+     * @param id
+     * @return
+     */
+    ServerResponse<User> getInformation(Integer id);
 }

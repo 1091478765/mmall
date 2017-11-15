@@ -172,5 +172,19 @@
     select count(id) FROM mmall_user WHERE username = #{username} and question = #{question} and answer = #{answer}
   </select>
 
+  <select id="checkPassword" resultType="java.lang.Integer" parameterType="map">
+    SELECT COUNT (id) FROM mmall_user WHERE username = #{username} and password = #{newPassword}
+  </select>
+  <select id="checkEmailByUserId" resultType="java.lang.Integer" parameterType="map">
+    SELECT COUNT FROM mmall_user WHERE email = #{email} and id !=#{id}
+
+  </select>
+
+
+  <update id="updatePasswordByUsername" parameterType="map" >
+    UPDATE mmall_user set password = #{newPassword},update_time = now() WHERE username = #{username}
+  </update>
+
+
 
 </mapper>

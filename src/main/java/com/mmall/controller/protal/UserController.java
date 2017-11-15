@@ -102,10 +102,57 @@ public class UserController {
         return userService.forGetQuestion(username);
     }
 
+    /**
+     * 忘记密码获取token
+     * @param username
+     * @param answer
+     * @param question
+     * @return
+     */
     @RequestMapping(value = "forgetCheckQuestion.do")
     @ResponseBody
     public ServerResponse<String> forgetCheckQuestion(String username, String answer,String question) {
         return userService.forgetCheckQuestion(username,answer,question);
     }
 
+    @RequestMapping(value = "forgetResetQuestion.do")
+    @ResponseBody
+    public ServerResponse<String> forgetResetPassword(String username, String newPassword,String token) {
+        return userService.forgetResetPassword(username,newPassword,token);
+    }
+
+    @RequestMapping(value = "resetPassword.do")
+    @ResponseBody
+    public ServerResponse<String> resetPassword(HttpSession session, String newPassword,String oldPassword) {
+        if (session.getAttribute(Constant.CURRENT_USER) == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return userService.resetPassword(session,newPassword,oldPassword);
+    }
+
+    @RequestMapping(value = "updateInformation.do")
+    @ResponseBody
+    public ServerResponse<User> updateInformation(HttpSession session,User user) {
+        User currentUser = (User)session.getAttribute(Constant.CURRENT_USER);
+        if (currentUser == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        user.setId(currentUser.getId());
+        user.setUsername(currentUser.getUsername());
+        ServerResponse<User> response = userService.updateInformation(session,user);
+        if (response.isSuccess()){
+            session.setAttribute(Constant.CURRENT_USER,response.getData());
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "getInformation.do")
+    @ResponseBody
+    public ServerResponse<User> getInformation(HttpSession session) {
+        User currentUser = (User)session.getAttribute(Constant.CURRENT_USER);
+        if (currentUser == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录");
+        }
+        return userService.getInformation(currentUser.getId());
+    }
 }

@@ -53,4 +53,28 @@ public interface UserMapper {
      * @return
      */
     int forgetCheckQuestion(@Param("username") String username, @Param("answer")String answer, @Param("question")String question);
+
+    /**
+     * 根据用户名更新密码
+     * @param username
+     * @return
+     */
+    int updatePasswordByUsername(@Param("username") String username,@Param("newPassword") String newPassword);
+
+    /**
+     * 检查密码
+     * @param username
+     * @param oldPassword
+     * @return
+     */
+    int checkPassword(@Param("username") String username, @Param("oldPassword") String oldPassword);
+
+    /**
+     * 通过用户名检查邮箱是否重复
+     * @param email
+     * @param id
+     * @return
+     */
+    int checkEmailByUserId(@Param("email") String email, @Param("id") Integer id);
+
 }
