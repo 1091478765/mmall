@@ -7,7 +7,6 @@ import com.mmall.dao.UserMapper;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
 import com.mmall.util.UuidUtil;
-import org.apache.commons.io.output.TaggedOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -165,10 +164,18 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ServerResponse<User> getInformation(Integer id) {
         User user = userMapper.selectByPrimaryKey(id);
-        if (user != null){
+        if (user == null){
             return ServerResponse.createByErrorMessage("用户不存在");
         }
         user.setPassword("");
         return ServerResponse.createBySuccessData(user);
+    }
+
+    @Override
+    public ServerResponse checkAdminRole(User user) {
+        if (user != null && user.getRole().intValue() ==Constant.Role.ROLE_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
     }
 }

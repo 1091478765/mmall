@@ -115,7 +115,7 @@ public class UserController {
         return userService.forgetCheckQuestion(username,answer,question);
     }
 
-    @RequestMapping(value = "forgetResetQuestion.do")
+    @RequestMapping(value = "forgetResetPassword.do")
     @ResponseBody
     public ServerResponse<String> forgetResetPassword(String username, String newPassword,String token) {
         return userService.forgetResetPassword(username,newPassword,token);
